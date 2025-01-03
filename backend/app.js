@@ -10,7 +10,7 @@ app.get("/", (req, res) => {
 });
 
 const mongoUri = `mongodb+srv://${process.env.Mongo_ID}:${process.env.Mongo_MP}@cluster0.ruqtd.mongodb.net/${process.env.Mongo_BDName}?retryWrites=true&w=majority&appName=Cluster0`;
-console.log("MongoDB URI:", mongoUri);
+
 mongoose
   .connect(mongoUri)
   .then(() => console.log("Connexion à MongoDB réussie !"))
