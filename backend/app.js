@@ -1,13 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
+const ObjectRoute = require("./routes/object.route.js");
 const app = express();
+
+app.use(express.json());
 
 require("dotenv").config();
 
-app.get("/", (req, res) => {
-  res.send("Hello from Node API Server Updated");
-});
+app.use("/api/objects", ObjectRoute);
 
 const mongoUri = `mongodb+srv://${process.env.Mongo_ID}:${process.env.Mongo_MP}@cluster0.ruqtd.mongodb.net/${process.env.Mongo_BDName}?retryWrites=true&w=majority&appName=Cluster0`;
 
