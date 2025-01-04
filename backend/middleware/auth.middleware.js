@@ -1,12 +1,13 @@
 const jwt = require("jsonwebtoken");
+const asynHandler = require("express-async-handler");
 const User = require("../models/user.model");
 
-const auth = async (req, res, next) => {
+const auth = asynHandler(async (req, res, next) => {
   let token;
 
   if (
     req.headers.authorization &&
-    req.headers.authorization.startWhith("Bearer")
+    req.headers.authorization.startsWith("Bearer")
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
@@ -14,7 +15,11 @@ const auth = async (req, res, next) => {
       const userId = decodedToken.userId;
 
       // Retrive the user informations without the password
-      req.user = await User.findByIdy(userId).select("-password");
+      //req.user = await User.findByIdy(userId).select("-password");
+
+      req.auth = {
+        userId: userId,
+      };
       next();
     } catch (error) {
       res.status(401).json({ message: "Not Authorized !" });
@@ -24,6 +29,6 @@ const auth = async (req, res, next) => {
   if (!token) {
     res.status(401).json({ message: "Not Authorized !" });
   }
-};
+});
 
 module.exports = { auth };
