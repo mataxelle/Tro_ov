@@ -20,7 +20,7 @@ const createObject = async (req, res) => {
     });
 
     await object.save();
-    res.status(201).json({ message: "Object saved successfully!" });
+    res.status(201).json({ message: "Object create successfully!" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
