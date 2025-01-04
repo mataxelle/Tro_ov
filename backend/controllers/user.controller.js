@@ -1,8 +1,8 @@
-const User = require("../models/user.model");
+const { User } = require("../models/user.model.js");
 
 const getProfile = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.user.id;
     const profile = await User.findById(id);
 
     if (!profile) {
@@ -17,7 +17,7 @@ const getProfile = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.user.id;
     const profile = await User.findByIdAndUpdate(id);
 
     if (!profile) {
@@ -33,7 +33,7 @@ const updateProfile = async (req, res) => {
 
 const deleteProfile = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.user.id;
     const profile = await User.findByIdAndDelete(id);
 
     if (!profile) {
