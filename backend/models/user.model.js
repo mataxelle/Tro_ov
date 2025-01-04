@@ -41,4 +41,24 @@ function validateUser(user) {
   return value;
 }
 
-module.exports = { User, validateUser };
+/**
+ * @param {Object} user - The user object to validate.
+ * @param {string} user.email - The email of the user (valid email format).
+ * @param {string} user.password - The password of the user (8-50 characters).
+ * @returns {Object} The validated user data.
+ * @throws {Error} If the validation fails, an error is thrown with the validation message.
+ */
+function loggeUser(user) {
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).max(50).required(),
+  });
+  const { value, error } = schema.validate(user);
+
+  if (error) {
+    throw new Error(error.details[0].message);
+  }
+  return value;
+}
+
+module.exports = { User, validateUser, loggeUser };

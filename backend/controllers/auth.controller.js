@@ -1,5 +1,6 @@
-const { User, validateUser } = require("../models/user.model.js");
+const { User, validateUser, loggeUser } = require("../models/user.model.js");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const signUp = async (req, res) => {
   try {
@@ -7,7 +8,7 @@ const signUp = async (req, res) => {
 
     const existingUser = await User.findOne({ email: validatedData.email });
     if (existingUser) {
-      return res.status(400).json({ message: "User email already exists !" });
+      return res.status(400).json({ message: "Invalid credentials !" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -28,6 +29,31 @@ const signUp = async (req, res) => {
 
 const signIn = async (req, res) => {
   try {
+    const validatedData = loggeUser(req.body);
+
+    const existingUser = await User.findOne({ email: validatedData.email });
+    if (!existingUser) {
+      return res.status(401).json({ message: "Invalid credentials !" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      validatedData.password,
+      existingUser.password
+    );
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid credentials !" });
+    }
+
+    const token = jwt.sign(
+      { userId: existingUser.id },
+      process.env.S_TOKEN,
+      { expiresIn: "24h"}
+    );
+
+    res.status(200).json({
+      userId: existingUser.id,
+      token: token,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
