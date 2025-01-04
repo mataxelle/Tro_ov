@@ -11,12 +11,12 @@ const signUp = async (req, res) => {
     }
 
     const salt = await bcrypt.genSalt(10);
-    const password = await bcrypt.hash(validatedData.password, salt);
+    const hashedPassword = await bcrypt.hash(validatedData.password, salt);
 
     const user = new User({
       name: validatedData.name,
       email: validatedData.email,
-      password: password,
+      password: hashedPassword,
     });
 
     await user.save();
