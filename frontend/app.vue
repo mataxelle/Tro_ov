@@ -1,6 +1,8 @@
 <template>
-  <div>
+  <div class="bg-light min-vh-100">
+    <NuxtLoadingIndicator />
     <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+    <Header />
+    <NuxtPage />
   </div>
 </template>
