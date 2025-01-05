@@ -18,14 +18,17 @@ const getProfile = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const id = req.user.id;
-    const profile = await User.findByIdAndUpdate(id);
+    const { name, email } = req.body;
+    const newProfile = { name, email };
+    const updatedProfile = await User.findByIdAndUpdate(id, newProfile, {
+      new: true,
+      runValidators: true,
+    });
 
-    if (!profile) {
+    if (!updatedProfile) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    const updatedProfile = await User.findById(id);
-    res.status(200).json(updatedProfile);
+    res.status(200).json({ status: "Success", results: updatedProfile });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
