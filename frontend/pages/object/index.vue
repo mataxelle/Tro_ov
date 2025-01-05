@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-5">
     <h1>MA LISTE D OBJETS</h1>
 
     <article v-for="post in posts" :key="post.id">

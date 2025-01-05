@@ -8,6 +8,7 @@
 import LoginForm from "@/components/auth/LoginForm.vue";
 
 export default {
+  name: "login",
   components: {
     LoginForm,
   },
