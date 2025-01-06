@@ -52,8 +52,8 @@ export default {
 
   data() {
     return {
-      email: "",
-      password: "",
+      email: "test@gmail.com",
+      password: "azertyuiop",
       errors: {},
       errorMessage: "", // Message global
     };
@@ -78,19 +78,24 @@ export default {
       }
 
       try {
-        const response = await fetch("http://localhost:5000/api/auth/signIn", {
+        await fetch("http://localhost:5000/api/auth/signIn", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
           body: JSON.stringify(formData),
-        });
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Données reçues g:", data);
+          })
+          .catch((error) => {
+            console.error("Erreur lors de la requête:", error);
+          });
 
-        if (!response.ok) {
-          const data = await response.json();
-          this.errorMessage = data.message || "Erreur connexion !";
-          return;
-        }
-
-        await this.$router.push("/");
+        this.$router.push("/object");
       } catch (err) {
         console.error(err);
         this.errorMessage = "An error has occurred. Please try again.";

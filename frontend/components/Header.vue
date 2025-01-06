@@ -28,8 +28,8 @@
             <li class="nav-item">
               <NuxtLink class="nav-link" to="/login">Connexion</NuxtLink>
             </li>
-            <li class="nav-item">
-              <NuxtLink class="nav-link" to="/logout">Déconnexion</NuxtLink>
+            <li class="nav-item" v-if="auth">
+              <a class="nav-link" href="#" @click="logout">Déconnexion</a>
             </li>
           </ul>
         </div>
@@ -41,5 +41,23 @@
 <script>
 export default {
   name: "Header",
+
+  data() {
+    return {
+      auth: false,
+    };
+  },
+  mounted() {},
+  methods: {
+    async logout() {
+      await fetch("http://localhost:5000/api/auth/SignOut", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      await this.$router.push("/login");
+    },
+  },
 };
 </script>
