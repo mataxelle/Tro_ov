@@ -20,7 +20,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <NuxtLink class="nav-link" to="/object">Catalogue</NuxtLink>
+              <NuxtLink class="nav-link" to="/objects">Catalogue</NuxtLink>
             </li>
             <li class="nav-item">
               <NuxtLink class="nav-link" to="/register">Inscription</NuxtLink>
