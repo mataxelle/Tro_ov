@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   build: {
-    transpile: ['@popperjs/core']
+    transpile: ['@popperjs/core', 'bootstrap']
   },
 
   css: [

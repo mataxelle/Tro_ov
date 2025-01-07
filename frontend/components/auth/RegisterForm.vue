@@ -11,7 +11,7 @@
         <label for="name" class="form-label">Nom</label>
         <input
           v-model="name"
-          type="name"
+          type="text"
           class="form-control"
           id="name"
           placeholder="Entre votre nom"

@@ -10,7 +10,7 @@
 
     <div class="row row-cols-1 row-cols-md-3 g-4 my-5">
       <div v-for="post in posts" :key="post.id" class="col">
-        <div class="card h-100">
+        <div class="card h-100 shadow">
           <div class="card-body">
             <h5 class="card-title">{{ post.name }}</h5>
             <img

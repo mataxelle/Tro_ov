@@ -9,10 +9,10 @@ const {
   deleteObject,
 } = require("../controllers/object.controller.js");
 
-router.get("/", auth, getObjects);
-router.post("/", auth, createObject);
-router.get("/:id", auth, getObject);
-router.put("/:id", auth, updateObject);
-router.delete("/:id", auth, deleteObject);
+router.get("/", getObjects);
+router.post("/", createObject);
+router.get("/:id", getObject);
+router.put("/:id", updateObject);
+router.delete("/:id", deleteObject);
 
 module.exports = router;
