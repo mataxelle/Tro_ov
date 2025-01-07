@@ -1,45 +1,23 @@
 <template>
-  <div
-    class="container d-flex justify-content-center align-items-center min-vh-100 bg-light"
-  >
-    <form
-      @submit.prevent="submit"
-      class="form-login p-4 rounded shadow bg-white"
-    >
+  <div class="container d-flex justify-content-center align-items-center min-vh-100 bg-light">
+    <form @submit.prevent="submit" class="form-login p-4 rounded shadow bg-white">
       <h2 class="text-center text-success mb-4">Rejoignez la communauté !</h2>
       <div class="mb-3">
         <label for="name" class="form-label">Nom</label>
-        <input
-          v-model="name"
-          type="text"
-          class="form-control"
-          id="name"
-          placeholder="Entre votre nom"
-        />
+        <input v-model="name" type="text" class="form-control" id="name" placeholder="Entrez votre nom" />
         <div v-if="errors.name" class="text-danger">{{ errors.name }}</div>
       </div>
 
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input
-          v-model="email"
-          type="email"
-          class="form-control"
-          id="email"
-          placeholder="Entre votre email"
-        />
+        <input v-model="email" type="email" class="form-control" id="email" placeholder="Entrez votre email" />
         <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
       </div>
 
       <div class="mb-3">
         <label for="password" class="form-label">Mot de passe</label>
-        <input
-          v-model="password"
-          type="password"
-          id="password"
-          class="form-control"
-          placeholder="Entrez votre mot de passe"
-        />
+        <input v-model="password" type="password" id="password" class="form-control"
+          placeholder="Entrez votre mot de passe" />
         <div v-if="errors.password" class="text-danger">
           {{ errors.password }}
         </div>

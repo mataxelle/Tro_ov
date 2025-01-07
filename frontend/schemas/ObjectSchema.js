@@ -10,8 +10,8 @@ export const objectSchema = Joi.object({
     "string.min": "La description doit contenir au moins 8 caractères.",
     "any.required": "La description est obligatoire.",
   }),
-  color: Joi.string().min(2).messages({
-    "string.min": "La description doit contenir au moins 2 caractères.",
+  color: Joi.string().min(0).messages({
+    "string.min": "Champ non obligatoire.",
   }),
   imageUrl: Joi.string().required().messages({
     "string.min": "Le mot de passe doit contenir au moins 8 caractères.",

@@ -7,7 +7,7 @@
           <div class="d-md-flex justify-content-around mt-5">
             <ul>
               <li>
-                <NuxtLink to="/" class=""> Online Store </NuxtLink>
+                <NuxtLink to="/" class=""> Accueil </NuxtLink>
               </li>
               <li>
                 <NuxtLink to="/" class=""> Terms & Conditions </NuxtLink>
@@ -15,18 +15,18 @@
             </ul>
             <ul>
               <li>
-                <NuxtLink to="/" class=""> Online Store </NuxtLink>
+                <NuxtLink to="/" class=""> F.A.Q </NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/" class=""> Terms & Conditions </NuxtLink>
+                <NuxtLink to="/" class=""> Connexion </NuxtLink>
               </li>
             </ul>
             <ul>
               <li>
-                <NuxtLink to="/" class=""> Shop & Contact </NuxtLink>
+                <NuxtLink to="/" class=""> CGU </NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/" class=""> Return & Refund </NuxtLink>
+                <NuxtLink to="/" class=""> A propos </NuxtLink>
               </li>
             </ul>
           </div>

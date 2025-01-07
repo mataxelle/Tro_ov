@@ -58,23 +58,23 @@ export default {
       return format(new Date(date), "dd-MM-yyyy");
     },
     async deleteObject() {
-    await fetch("http://localhost:5000/api/objects/" + this.$route.params.id, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
+      await fetch("http://localhost:5000/api/objects/" + this.$route.params.id, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
 
-    // Close modal
-    const modalElement = document.getElementById('exampleModal');
-    const modal = bootstrap.Modal.getInstance(modalElement);
-    if (modal) {
-      modal.hide();
-    }
+      // Close modal
+      const modalElement = document.getElementById('exampleModal');
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
 
-    setTimeout(() => {
-      this.$router.push("/objects");
-    }, 300);
-  },
+      setTimeout(() => {
+        this.$router.push("/objects");
+      }, 300);
+    },
   },
 
   async mounted() {
