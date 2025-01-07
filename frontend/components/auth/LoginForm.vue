@@ -79,7 +79,7 @@ export default {
             console.error(error);
           });
 
-        this.$router.push("/object");
+        this.$router.push("/objects");
       } catch (err) {
         console.error(err);
         this.errorMessage = "An error has occurred. Please try again.";

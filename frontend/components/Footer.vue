@@ -7,26 +7,26 @@
           <div class="d-md-flex justify-content-around mt-5">
             <ul>
               <li>
-                <NuxtLink to="/" class=""> Accueil </NuxtLink>
+                <NuxtLink to="/" class="text-decoration-none text-white"> Accueil </NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/" class=""> Terms & Conditions </NuxtLink>
-              </li>
-            </ul>
-            <ul>
-              <li>
-                <NuxtLink to="/" class=""> F.A.Q </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/" class=""> Connexion </NuxtLink>
+                <NuxtLink to="/" class="text-decoration-none text-white"> Terms & Conditions </NuxtLink>
               </li>
             </ul>
             <ul>
               <li>
-                <NuxtLink to="/" class=""> CGU </NuxtLink>
+                <NuxtLink to="/" class="text-decoration-none text-white"> F.A.Q </NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/" class=""> A propos </NuxtLink>
+                <NuxtLink to="/" class="text-decoration-none text-white"> Connexion </NuxtLink>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <NuxtLink to="/" class="text-decoration-none text-white"> CGU </NuxtLink>
+              </li>
+              <li>
+                <NuxtLink to="/" class="text-decoration-none text-white"> A propos </NuxtLink>
               </li>
             </ul>
           </div>
