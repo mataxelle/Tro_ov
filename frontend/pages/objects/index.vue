@@ -65,8 +65,8 @@ export default {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          credentials: "include",
         },
+        credentials: "include",
       })
         .then((response) => response.json())
         .then((data) => {

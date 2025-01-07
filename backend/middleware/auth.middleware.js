@@ -21,13 +21,17 @@ const auth = asyncHandler(async (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "Not Authorized 1 !" });
   }
+
   try {
-    token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN);
     const userId = decodedToken.userId;
 
     // Retrive the user informations without the password
     req.user = await User.findById(userId).select("-password");
+
+    if (!req.user) {
+      return res.status(401).json({ message: "Not Authorized 1 !" });
+    }
 
     next();
   } catch (error) {

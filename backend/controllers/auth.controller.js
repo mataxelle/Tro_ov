@@ -1,6 +1,5 @@
 const { User, validateUser, loggeUser } = require("../models/user.model.js");
 const bcrypt = require("bcrypt");
-const { options } = require("joi");
 const jwt = require("jsonwebtoken");
 
 const signUp = async (req, res) => {
@@ -55,7 +54,7 @@ const signIn = async (req, res) => {
     res.cookie("authToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production" ? true : false,
-      sameSite: "None",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 24 * 60 * 60 * 1000,
       path: "/",
     });
@@ -70,12 +69,9 @@ const signIn = async (req, res) => {
 };
 
 const signOut = (req, res) => {
-  try {
-    res.cookie("authToken", "", { maxAge: 0 });
-    res.send({ message: "Success !" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+  res.clearCookie("authToken");
+  res.clearCookie("refreshToken");
+  res.status(200).json({ message: "Logged out successfully !" });
 };
 
 module.exports = { signUp, signIn, signOut };
