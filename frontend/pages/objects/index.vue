@@ -8,27 +8,26 @@
 
     <h3 class="text-center text-secondary mb-5">Il n'y a pas de hasard</h3>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4 my-5">
-      <div v-for="post in posts" :key="post.id" class="col">
+    <div v-if="objects.length === 0" class="text-center">
+      <p>Aucun objet disponible pour l'instant.</p>
+    </div>
+
+    <div v-if="isLoading" class="text-center">
+  <p>Chargement en cours...</p>
+</div>
+    <div v-else class="row row-cols-1 row-cols-md-3 g-4 my-5">
+      <div v-for="object in objects" :key="object.id" class="col">
         <div class="card h-100 shadow">
           <div class="card-body">
-            <h5 class="card-title">{{ post.name }}</h5>
-            <img
-              class="card-img-top"
-              :src="post.imageUrl"
-              alt="Image de l'objet"
-            />
-            <NuxtLink
-              :to="`/objects/${post._id}`"
-              role="button"
-              class="btn btn-outline-success my-4"
-              >Lire mon histoire</NuxtLink
-            >
+            <h5 class="card-title">{{ object.name }}</h5>
+            <img class="card-img-top" :src="object.imageUrl" alt="Image de l'objet" loading="lazy" />
+            <NuxtLink :to="`/objects/${object._id}`" role="button" class="btn btn-outline-success my-4" aria-label="Lire l'histoire de {{ object.name }}">Lire mon histoire
+            </NuxtLink>
           </div>
           <div class="card-footer">
             <p class="card-text d-flex justify-content-end">
               <small class="text-muted">
-                <em>Posté le {{ formatDate(post.updatedAt) }}</em>
+                <em>Posté le {{ formatDate(object.updatedAt) }}</em>
               </small>
             </p>
           </div>
@@ -39,45 +38,33 @@
 </template>
 
 <script>
-import { format } from "date-fns";
-
+definePageMeta({
+  middleware: 'auth'
+})
 export default {
-  name: "index",
-
   data() {
     return {
-      posts: "",
+      objects: [],
+      isLoading: true, // Loading indicator
     };
   },
-
   methods: {
+    async fetchPosts() {
+      try {
+        const response = await this.$axios.get('/api/objects');
+        this.objects = response.data;
+      } catch (error) {
+        console.error('Error objects :', error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
     formatDate(date) {
-      return format(new Date(date), "dd-MM-yyyy");
+      return new Date(date).toLocaleDateString();
     },
   },
-
-  async mounted() {
-    try {
-      await fetch("http://localhost:5000/api/objects/", {
-        method: "GET",
-        headers: {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        },
-        credentials: "include",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          this.posts = data;
-        })
-        .catch((error) => {
-          console.error("Erreur lors de la requête:", error);
-        });
-    } catch (error) {
-      console.log("NOOOOOOOOOOOOON");
-    }
+  mounted() {
+    this.fetchPosts();
   },
 };
 </script>

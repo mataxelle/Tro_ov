@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { useAuth } from '~/stores/auth';
 import { loginSchema } from "~/schemas/LoginSchema";
 
 export default {
@@ -36,8 +37,8 @@ export default {
 
   data() {
     return {
-      email: "test@gmail.com",
-      password: "azertyuiop",
+      email: ref("test@gmail.com"),
+      password: ref("azertyuiop"),
       errors: {},
       errorMessage: "", // Message global
     };
@@ -71,9 +72,12 @@ export default {
           credentials: "include",
           body: JSON.stringify(formData),
         })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
+          .then((response) => {
+            const auth = useAuth();
+            auth.value = {
+              isAuthenticated: true,
+              user: response.user, // Ajoutez les données utilisateur
+            };
           })
           .catch((error) => {
             console.error(error);

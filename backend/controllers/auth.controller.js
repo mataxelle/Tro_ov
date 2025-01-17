@@ -74,4 +74,49 @@ const signOut = (req, res) => {
   res.status(200).json({ message: "Logged out successfully !" });
 };
 
+// To do
+/*const refreshToken = async (req, res) => {
+  const getRefreshToken = req.cookies.refreshToken;
+
+  if (!getRefreshToken) {
+    return res.status(401).json({ message: "No Refresh Token" });
+  }
+
+  try {
+    const decoded = jwt.verify(getRefreshToken, process.env.REFRESH_SECRET_TOKEN);
+    const newAccessToken = jwt.sign({ userId: decoded.userId }, process.env.SECRET_TOKEN, {
+      expiresIn: "15m",
+    });
+
+    res.cookie("authToken", newAccessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+      maxAge: 15 * 60 * 1000,
+      path: "/",
+    });
+
+    res.status(200).json({ message: "Token refreshed" });
+  } catch (err) {
+    res.status(403).json({ message: "Invalid Refresh Token" });
+  }
+}*/
+
+// To do
+/*const authCheck = (req, res) => {
+  const token = req.cookies.authToken;
+  console.log(token);
+
+  if (!token) {
+    return res.status(401).json({ isAuthenticated: false });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
+    return res.status(200).json({ isAuthenticated: true });
+  } catch (error) {
+    return res.status(403).json({ isAuthenticated: false });
+  }
+}*/
+
 module.exports = { signUp, signIn, signOut };

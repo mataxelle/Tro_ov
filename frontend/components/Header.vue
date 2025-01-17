@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { useAuth } from '~/stores/auth';
+
 export default {
   name: "Header",
 
@@ -40,7 +42,7 @@ export default {
       auth: false,
     };
   },
-  mounted() {},
+  mounted() { },
   methods: {
     async logout() {
       await fetch("http://localhost:5000/api/auth/SignOut", {
@@ -48,6 +50,11 @@ export default {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
       });
+
+      const auth = useAuth();
+      auth.value = {
+        isAuthenticated: false, // Réinitialise l'état
+      };
 
       await this.$router.push("/login");
     },
