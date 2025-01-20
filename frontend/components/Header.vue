@@ -53,7 +53,7 @@ export default {
 
       const auth = useAuth();
       auth.value = {
-        isAuthenticated: false, // Réinitialise l'état
+        isAuthenticated: false, // Resets state
       };
 
       await this.$router.push("/login");

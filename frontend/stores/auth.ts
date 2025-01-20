@@ -1,14 +1,14 @@
-// Définition de la structure de l'état d'authentification
+// Defining the Authentication State Structure
 export interface AuthState {
-    isAuthenticated: boolean; // Indique si l'utilisateur est connecté
+    isAuthenticated: boolean; // Indicates whether the user is logged in
     user?: {
-        id: string; // ID de l'utilisateur
-        email: string; // Email de l'utilisateur
+        id: string; // Use id
+        email: string; // User email
     };
 }
 
-// Fonction pour initialiser et gérer l'état global `auth`
+// Function to initialize and manage global `auth` state
 export const useAuth = () =>
     useState<AuthState>('auth', () => ({
-        isAuthenticated: false, // Valeur par défaut : utilisateur non connecté
+        isAuthenticated: false, // Default: user not logged in
     }));

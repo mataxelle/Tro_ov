@@ -1,9 +1,9 @@
-import { useAuth } from '@/stores/auth'; // Import correct
+import { useAuth } from '@/stores/auth';
 
 export default defineNuxtRouteMiddleware(() => {
-  const auth = useAuth(); // Récupération de l'état global
+  const auth = useAuth(); // Retrieving global state
 
   if (!auth.value.isAuthenticated) {
-    return navigateTo('/login'); // Redirige l'utilisateur non authentifié
+    return navigateTo('/login'); // Redirect unauthenticated user
   }
 });

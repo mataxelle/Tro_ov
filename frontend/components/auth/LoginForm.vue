@@ -40,7 +40,7 @@ export default {
       email: ref("test@gmail.com"),
       password: ref("azertyuiop"),
       errors: {},
-      errorMessage: "", // Message global
+      errorMessage: "", // Global message
     };
   },
 
@@ -76,7 +76,7 @@ export default {
             const auth = useAuth();
             auth.value = {
               isAuthenticated: true,
-              user: response.user, // Ajoutez les données utilisateur
+              user: response.user, // Add user data
             };
           })
           .catch((error) => {
