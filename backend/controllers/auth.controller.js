@@ -45,7 +45,7 @@ const signIn = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { userId: existingUser.id },
+      { userId: existingUser.id, email: existingUser.email },
       process.env.SECRET_TOKEN,
       { expiresIn: "24h" }
     );
@@ -102,10 +102,10 @@ const signOut = (req, res) => {
   }
 }*/
 
-// To do
-/*const authCheck = (req, res) => {
+
+const authCheck = (req, res) => {
   const token = req.cookies.authToken;
-  console.log(token);
+  console.log("le TOKEN EST : " + token);
 
   if (!token) {
     return res.status(401).json({ isAuthenticated: false });
@@ -113,10 +113,18 @@ const signOut = (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
-    return res.status(200).json({ isAuthenticated: true });
+    return res.status(200).json(
+      { 
+        isAuthenticated: true,
+        user: { 
+          id: decoded.userId,
+          email: decoded.email
+        } 
+      }
+    );
   } catch (error) {
     return res.status(403).json({ isAuthenticated: false });
   }
-}*/
+}
 
-module.exports = { signUp, signIn, signOut };
+module.exports = { signUp, signIn, signOut, authCheck };

@@ -15,5 +15,5 @@ export default defineNuxtConfig({
     {src:  '~/plugins/bootstrap.js', mode: 'client'},
   ],
 
-  modules: ['@nuxt/image']
+  modules: ['@nuxt/image'],
 })
