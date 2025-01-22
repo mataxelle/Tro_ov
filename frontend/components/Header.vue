@@ -8,7 +8,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ms-auto" v-if="!auth.isAuthenticated">
+          <ul class="navbar-nav ms-auto" v-if="!authStore.isAuthenticated">
             <li class="nav-item">
               <NuxtLink class="nav-link" to="/register">Inscription</NuxtLink>
             </li>
@@ -34,43 +34,12 @@
 </template>
 
 <script setup>
-import { useAuth } from '~/stores/auth';
-import { onMounted } from 'vue';
+import { useAuthStore } from '~/stores/auth';
 
-const auth = useAuth();
+const authStore = useAuthStore();
 
-async function logout() {
-  await fetch("http://localhost:5000/api/auth/signOut", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  });
-
-  auth.value = {
-    isAuthenticated: false, // Resets state
-    user: null
-  };
-
-  //await this.$router.push("/login");
-  return navigateTo('/login');
-}
-
-// Fonction pour persister l'état global au rafraîchissement
-onMounted(async () => {
-  try {
-    const response = await $fetch("http://localhost:5000/api/auth/authCheck", {
-      method: "GET",
-      credentials: "include",
-    });
-
-    auth.value = {
-      isAuthenticated: response.isAuthenticated,
-      user: response.user,
-    };
-  } catch (error) {
-    auth.value = {
-      isAuthenticated: false,
-    };
-  }
-});
+const logout = async () => {
+  await authStore.logout();
+  navigateTo('/login');
+};
 </script>

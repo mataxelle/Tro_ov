@@ -28,68 +28,42 @@
   </div>
 </template>
 
-<script>
-import { useAuth } from '~/stores/auth';
+<script setup>
+import { useAuthStore } from '~/stores/auth';
 import { loginSchema } from "~/schemas/LoginSchema";
 
-export default {
-  name: "LoginForm",
+const authStore = useAuthStore();
 
-  data() {
-    return {
-      email: ref("test@gmail.com"),
-      password: ref("azertyuiop"),
-      errors: {},
-      errorMessage: "", // Global message
-    };
-  },
+const email = ref('test@gmail.com');
+const password = ref('azertyuiop');
+const errors = ref({});
+const errorMessage = ref("");
 
-  methods: {
-    async submit() {
-      // Reset errors
-      this.errors = {};
-      this.errorMessage = "";
+const submit = async () => {
+
+  // Reset errors
+  errors.value = {};
+  errorMessage.value = "";
 
       // Validation with Joi
-      const formData = { email: this.email, password: this.password };
+      const formData = { email: email.value, password: password.value };
       const { error } = loginSchema.validate(formData, { abortEarly: false });
 
       if (error) {
         // Get errors for each field
         error.details.forEach((err) => {
-          this.errors[err.path[0]] = err.message;
+          errors.value[err.path[0]] = err.message;
         });
         return;
       }
 
-      try {
-        await fetch("http://localhost:5000/api/auth/signIn", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(formData),
-        })
-          .then((response) => {
-            const auth = useAuth();
-            auth.value = {
-              isAuthenticated: true,
-              user: response.user, // Add user data
-            };
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-
-        this.$router.push("/objects");
-      } catch (err) {
-        console.error(err);
-        this.errorMessage = "An error has occurred. Please try again.";
-      }
-    },
-  },
+  try {
+    await authStore.login(formData.email, formData.password)
+    navigateTo('/objects');
+  } catch (error) {
+    console.error(error);
+    errorMessage.value = "An error has occurred. Please try again.";
+  }
 };
 </script>
 
