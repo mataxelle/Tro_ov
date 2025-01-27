@@ -1,30 +1,36 @@
 <template>
   <div class="container d-flex justify-content-center align-items-center min-vh-100 bg-light">
-    <form @submit.prevent="submit" class="form-login p-4 rounded shadow bg-white">
-      <h2 class="text-center text-success mb-4">Connexion</h2>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input v-model="email" type="email" class="form-control" id="email" placeholder="Entrez votre email" />
-        <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
-      </div>
-
-      <div class="mb-3">
-        <label for="password" class="form-label">Mot de passe</label>
-        <input v-model="password" type="password" id="password" class="form-control"
-          placeholder="Entrez votre mot de passe" />
-        <div v-if="errors.password" class="text-danger">
-          {{ errors.password }}
+    <div>
+      <form @submit.prevent="submit" class="form-login p-4 rounded shadow bg-white">
+        <h2 class="text-center text-success mb-4">Connexion</h2>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input v-model="email" type="email" class="form-control" id="email" placeholder="Entrez votre email" />
+          <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
         </div>
-      </div>
 
-      <div class="d-grid">
-        <button class="btn btn-success" type="submit">Connexion</button>
-      </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input v-model="password" type="password" id="password" class="form-control"
+            placeholder="Entrez votre mot de passe" />
+          <div v-if="errors.password" class="text-danger">
+            {{ errors.password }}
+          </div>
+        </div>
 
-      <div v-if="errorMessage" class="alert alert-danger mt-3">
-        {{ errorMessage }}
+        <div class="d-grid">
+          <button class="btn btn-success" type="submit">Connexion</button>
+        </div>
+
+        <div v-if="errorMessage" class="alert alert-danger mt-3">
+          {{ errorMessage }}
+        </div>
+      </form>
+      <div class="d-flex flex-column mt-5">
+        <span>Pas encore inscrit ?</span>
+        <NuxtLink to="/register" class="text-danger">Créer mon compte</NuxtLink>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -45,17 +51,17 @@ const submit = async () => {
   errors.value = {};
   errorMessage.value = "";
 
-      // Validation with Joi
-      const formData = { email: email.value, password: password.value };
-      const { error } = loginSchema.validate(formData, { abortEarly: false });
+  // Validation with Joi
+  const formData = { email: email.value, password: password.value };
+  const { error } = loginSchema.validate(formData, { abortEarly: false });
 
-      if (error) {
-        // Get errors for each field
-        error.details.forEach((err) => {
-          errors.value[err.path[0]] = err.message;
-        });
-        return;
-      }
+  if (error) {
+    // Get errors for each field
+    error.details.forEach((err) => {
+      errors.value[err.path[0]] = err.message;
+    });
+    return;
+  }
 
   try {
     await authStore.login(formData.email, formData.password)

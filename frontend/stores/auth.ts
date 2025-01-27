@@ -29,9 +29,7 @@ export const useAuthStore = defineStore('auth', {
                     body: { name, email, password },
                 });
 
-                this.isAuthenticated = true;
                 this.user = response.user;
-                this.authToken = response.token;
             } catch (error) {
                 console.error('Registration error : ', error);
                 throw error;
