@@ -15,5 +15,5 @@ export default defineNuxtConfig({
     {src:  '~/plugins/bootstrap.js', mode: 'client'},
   ],
 
-  modules: ['@nuxt/image', '@pinia/nuxt'],
+  modules: ['@nuxt/image', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
 })

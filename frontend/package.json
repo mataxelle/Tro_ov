@@ -18,6 +18,7 @@
     "date-fns": "^4.1.0",
     "joi": "^17.13.3",
     "nuxt": "^3.15.0",
+    "pinia-plugin-persistedstate": "^4.2.0",
     "vue": "latest",
     "vue-router": "latest"
   },

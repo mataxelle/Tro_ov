@@ -70,7 +70,7 @@ export const useAuthStore = defineStore('auth', {
                 this.user = response.user;
             } catch (error) {
                 console.error('Authentification error : ', error);
-                //this.logout();
+                this.logout();
             }
         },
 
@@ -89,4 +89,6 @@ export const useAuthStore = defineStore('auth', {
             }
         },
     },
+
+    persist: true,
 });
