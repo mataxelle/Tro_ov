@@ -76,8 +76,8 @@ export const useAuthStore = defineStore('auth', {
 
         async logout() {
             try {
-                await $fetch("http://localhost:5000/api/auth/authCheck", {
-                    method: "GET",
+                await $fetch("http://localhost:5000/api/auth/signOut", {
+                    method: "POST",
                     credentials: "include",
                 });
             } catch (error) {

@@ -69,7 +69,12 @@ const signIn = async (req, res) => {
 };
 
 const signOut = (req, res) => {
-  res.clearCookie("authToken");
+  res.clearCookie("authToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    path: "/",
+  });
   res.clearCookie("refreshToken");
   res.status(200).json({ message: "Logged out successfully !" });
 };

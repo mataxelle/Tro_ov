@@ -40,6 +40,7 @@ const authStore = useAuthStore();
 
 const logout = async () => {
   await authStore.logout();
+  authStore.$reset();
   navigateTo('/login');
 };
 </script>
