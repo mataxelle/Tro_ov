@@ -36,9 +36,11 @@
 
 <script setup>
 import { useAuthStore } from '~/stores/auth';
+import { useUserStore } from '~/stores/user';
 import { loginSchema } from "~/schemas/LoginSchema";
 
 const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const email = ref('test@gmail.com');
 const password = ref('azertyuiop');
@@ -64,7 +66,8 @@ const submit = async () => {
   }
 
   try {
-    await authStore.login(formData.email, formData.password)
+    await authStore.login(formData.email, formData.password);
+    await userStore.profile(); // Retrive the connected user info
     navigateTo('/objects');
   } catch (error) {
     console.error(error);

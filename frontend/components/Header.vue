@@ -23,8 +23,19 @@
             <li>
               <NuxtLink class="nav-link" to="/objects/create">Ajouter un objet</NuxtLink>
             </li>
-            <li class="nav-item">
-              <NuxtLink class="nav-link" @click="logout">Déconnexion</NuxtLink>
+            <li class="nav-item dropdown">
+              <a v-if="userStore.isLoggedIn" href="" class="nav-link dropdown-toggle" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                {{ userStore.user.name }}
+              </a>
+              <ul class="dropdown-menu">
+                <li class="nav-item">
+                  <NuxtLink class="dropdown-item" href="">Profil</NuxtLink>
+                </li>
+                <li class="nav-item">
+                  <NuxtLink class="dropdown-item" @click="logout">Déconnexion</NuxtLink>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -35,12 +46,15 @@
 
 <script setup>
 import { useAuthStore } from '~/stores/auth';
+import { useUserStore } from '~/stores/user';
 
 const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const logout = async () => {
   await authStore.logout();
   authStore.$reset();
+  userStore.clearUser();
   navigateTo('/login');
 };
 </script>
