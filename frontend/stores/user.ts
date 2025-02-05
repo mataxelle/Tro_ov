@@ -38,6 +38,28 @@ export const useUserStore = defineStore("user", {
       }
     },
 
+    async profileEdit(name: string, email: string) {
+      try {
+        if (import.meta.client) {
+          const response = await $fetch<{
+            user: User;
+            token: string;
+          }>(`${this.apiBaseUrl}/users/me`, {
+            method: "PUT",
+            body: { name, email },
+            credentials: "include",
+          });
+          this.user = response.user;
+        }
+      } catch (error) {
+        console.error("Profil edit error : ", error);
+        this.error = error instanceof Error ? error.message : "Unknown error";
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
+
     clearUser() {
       this.user = null;
       this.error = null;

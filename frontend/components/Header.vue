@@ -23,17 +23,17 @@
             <li>
               <NuxtLink class="nav-link" to="/objects/create">Ajouter un objet</NuxtLink>
             </li>
-            <li class="nav-item dropdown">
-              <a v-if="userStore.isLoggedIn" href="" class="nav-link dropdown-toggle" role="button"
+            <li v-if="userStore.user && userStore.user.name" class="nav-item dropdown">
+              <a v-if="userStore.user && userStore.user.name" href="" class="nav-link dropdown-toggle" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 {{ userStore.user.name }}
               </a>
               <ul class="dropdown-menu">
-                <li class="nav-item">
-                  <NuxtLink class="dropdown-item" href="">Profil</NuxtLink>
+                <li v-if="userStore.user && userStore.user._id" class="nav-item">
+                  <NuxtLink :to="`/user/${userStore.user._id}`" class="dropdown-item">Profil</NuxtLink>
                 </li>
                 <li class="nav-item">
-                  <NuxtLink class="dropdown-item" @click="logout">Déconnexion</NuxtLink>
+                  <a href="" class="dropdown-item" @click="logout">Déconnexion</a>
                 </li>
               </ul>
             </li>
