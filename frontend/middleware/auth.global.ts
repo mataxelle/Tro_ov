@@ -11,15 +11,14 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return;
   }
 
-  try {
+  if (!authStore.isAuthenticated) {
+    await authStore.checkAuth();
     if (!authStore.isAuthenticated) {
-      await authStore.checkAuth();
+      return navigateTo("/login");
     }
+  }
 
-    if (authStore.isAuthenticated && !userStore.isLoggedIn) {
-      await userStore.profile();
-    }
-  } catch (error) {
-    return navigateTo("/login");
+  if (authStore.isAuthenticated && !userStore.isLoggedIn) {
+    await userStore.profile();
   }
 });
