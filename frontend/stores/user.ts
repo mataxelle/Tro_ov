@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useAuthStore } from "./auth";
 
 interface User {
   _id: string;
@@ -56,6 +57,34 @@ export const useUserStore = defineStore("user", {
         this.error = error instanceof Error ? error.message : "Unknown error";
         throw error;
       } finally {
+        this.loading = false;
+      }
+    },
+
+    async profileDelete() {
+      try {
+        if (import.meta.client) {
+          await $fetch<{
+            user: User;
+            token: string;
+          }>(`${this.apiBaseUrl}/users/me`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+
+          const auth = useAuthStore();
+          auth.isAuthenticated = false;
+          setTimeout(() => {
+            const authToken = useCookie('authToken');
+            authToken.value = null;
+          }, 300);
+        }
+      } catch (error) {
+        console.error("Profil delete error : ", error);
+        this.error = error instanceof Error ? error.message : "Unknown error";
+        throw error;
+      } finally {
+        this.user = null;
         this.loading = false;
       }
     },

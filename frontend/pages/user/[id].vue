@@ -37,6 +37,21 @@
 import { useUserStore } from "~/stores/user";
 
 const userStore = useUserStore();
+
+const deleteUser = async () => {
+  await userStore.profileDelete();
+  
+  // Close modal
+  const modalElement = document.getElementById('exampleModal');
+  const modal = bootstrap.Modal.getInstance(modalElement);
+  if (modal) {
+    modal.hide();
+  }
+
+  setTimeout(() => {
+    navigateTo("/login");
+  }, 300);
+}
 </script>
 
 <style>
