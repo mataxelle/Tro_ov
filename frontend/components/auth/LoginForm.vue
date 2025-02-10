@@ -71,7 +71,7 @@ const submit = async () => {
     navigateTo('/objects');
   } catch (error) {
     console.error(error);
-    errorMessage.value = "An error has occurred. Please try again.";
+    errorMessage.value = "Erreur : email ou mot de passe incorrect";
   }
 };
 </script>
