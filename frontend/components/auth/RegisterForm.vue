@@ -25,7 +25,7 @@
         </div>
 
         <div class="d-grid">
-          <button class="btn btn-success" type="submit">Connexion</button>
+          <button class="btn btn-success" type="submit">Sinscrire</button>
         </div>
 
         <div v-if="errorMessage" class="alert alert-danger mt-3">
