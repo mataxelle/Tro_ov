@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container d-flex justify-content-center align-items-center min-vh-100 bg-light px-5"
+    class="container d-flex justify-content-center align-items-center min-vh-100 bg-light px-5 py-5"
   >
     <form
       @submit.prevent="submit"
