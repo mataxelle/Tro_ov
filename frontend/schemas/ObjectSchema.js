@@ -10,7 +10,7 @@ export const objectSchema = Joi.object({
     "string.min": "La description doit contenir au moins 8 caractères.",
     "any.required": "La description est obligatoire.",
   }),
-  color: Joi.string().min(0).messages({
+  colors: Joi.string().min(0).messages({
     "string.min": "Champ non obligatoire.",
   }),
   imageUrl: Joi.string().required().messages({
@@ -18,8 +18,8 @@ export const objectSchema = Joi.object({
     "string.max": "Le mot de passe doit contenir au maximun 50 caractères.",
     "any.required": "Une image est obligatoire.",
   }),
-  price: Joi.number().integer().max(50).messages({
-    "number.min": "Le mot de passe doit contenir au moins 1 caractères.",
-    "number.max": "Le mot de passe doit contenir au maximun 50 caractères.",
+  price: Joi.number().integer().max(50000).messages({
+    "number.min": "Le prix peut être au minimum 0.",
+    "number.max": "Le prix peut être maximun 50 000.",
   }),
 });

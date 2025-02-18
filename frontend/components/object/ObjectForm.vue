@@ -1,35 +1,20 @@
 <template>
-  <div
-    class="container d-flex justify-content-center align-items-center min-vh-100 bg-light px-5 py-5"
-  >
-    <form
-      @submit.prevent="submit"
-      class="form-login p-4 rounded shadow bg-white"
-    >
+  <div class="container d-flex justify-content-center align-items-center min-vh-100 bg-light px-5 py-5">
+    <form @submit.prevent="submit" class="form-login p-4 rounded shadow bg-white">
       <h2 class="text-center text-success mb-4">
         {{ isEdit ? "Modifier un objet !" : "Ajouter un objet !" }}
       </h2>
 
       <div class="mb-3">
         <label for="name" class="form-label">Nom</label>
-        <input
-          v-model="name"
-          type="text"
-          class="form-control"
-          id="name"
-          placeholder="Entrez un nom"
-        />
+        <input v-model="name" type="text" class="form-control" id="name" placeholder="Entrez un nom" />
         <div v-if="errors.name" class="text-danger">{{ errors.name }}</div>
       </div>
 
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-        <textarea
-          v-model="description"
-          class="form-control"
-          id="description"
-          placeholder="Décrivez un contenu"
-        ></textarea>
+        <textarea v-model="description" class="form-control" id="description"
+          placeholder="Décrivez un contenu"></textarea>
         <div v-if="errors.description" class="text-danger">
           {{ errors.description }}
         </div>
@@ -37,25 +22,13 @@
 
       <div class="mb-3">
         <label for="color" class="form-label">Couleur</label>
-        <input
-          v-model="color"
-          type="text"
-          class="form-control"
-          id="color"
-          placeholder="Entrez une couleur"
-        />
-        <div v-if="errors.color" class="text-danger">{{ errors.color }}</div>
+        <input v-model="colors" type="text" class="form-control" id="color" placeholder="Entrez une couleur" />
+        <div v-if="errors.colors" class="text-danger">{{ errors.colors }}</div>
       </div>
 
       <div class="mb-3">
         <label for="imageUrl" class="form-label">Image</label>
-        <input
-          v-model="imageUrl"
-          type="text"
-          id="imageUrl"
-          class="form-control"
-          placeholder="Entrez une image"
-        />
+        <input v-model="imageUrl" type="text" id="imageUrl" class="form-control" placeholder="Entrez une image" />
         <div v-if="errors.imageUrl" class="text-danger">
           {{ errors.imageUrl }}
         </div>
@@ -63,13 +36,7 @@
 
       <div class="mb-3">
         <label for="price" class="form-label">Prix</label>
-        <input
-          v-model="price"
-          type="text"
-          class="form-control"
-          id="price"
-          placeholder="Entrez un prix"
-        />
+        <input v-model="price" type="text" class="form-control" id="price" placeholder="Entrez un prix" />
         <div v-if="errors.price" class="text-danger">{{ errors.price }}</div>
       </div>
 
@@ -86,84 +53,63 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { objectSchema } from "~/schemas/ObjectSchema";
+import { useObjectStore } from '~/stores/object';
 
-export default {
-  name: "ObjectForm",
-  props: {
-    initialObject: {
-      type: Object,
-      default: () => ({}),
-    },
-    isEdit: {
-      type: Boolean,
-      default: false,
-    },
+const objectStore = useObjectStore();
+
+const props = defineProps({
+  initialObject: {
+    type: Object,
+    default: () => ({}),
   },
-  data() {
-    return {
-      name: this.initialObject.name || "",
-      description: this.initialObject.description || "",
-      color: this.initialObject.color || "",
-      imageUrl:
-        this.initialObject.imageUrl ||
-        "https://cdn.pixabay.com/photo/2014/12/08/14/23/pocket-watch-560937_1280.jpg",
-      price: this.initialObject.price || "",
-      errors: {},
-      errorMessage: "",
-    };
+  isEdit: {
+    type: Boolean,
+    default: false,
   },
-  methods: {
-    async submit() {
-      this.errors = {};
-      this.errorMessage = "";
+});
 
-      const formData = {
-        name: this.name,
-        description: this.description,
-        color: this.color,
-        imageUrl: this.imageUrl,
-        price: this.price,
-      };
+const name = ref(props.initialObject.name || "");
+const description = ref(props.initialObject.description || "");
+const colors = ref(props.initialObject.colors || "");
+const imageUrl = ref(props.initialObject.imageUrl || "https://cdn.pixabay.com/photo/2014/12/08/14/23/pocket-watch-560937_1280.jpg");
+const price = ref(props.initialObject.price || "");
+const errors = ref({});
+const errorMessage = ref("");
 
-      const { error } = objectSchema.validate(formData, { abortEarly: false });
+const submit = async () => {
+  errors.value = {};
+  errorMessage.value = "";
 
-      if (error) {
-        error.details.forEach((err) => {
-          this.errors[err.path[0]] = err.message;
-        });
-        return;
-      }
+  const formData = {
+    name: name.value,
+    description: description.value,
+    colors: colors.value,
+    imageUrl: imageUrl.value,
+    price: price.value,
+  };
 
-      try {
-        const method = this.isEdit ? "PUT" : "POST";
-        const url = this.isEdit
-          ? `http://localhost:5000/api/objects/${this.initialObject._id}`
-          : "http://localhost:5000/api/objects/";
+  const { error } = objectSchema.validate(formData, { abortEarly: false });
 
-        const response = await fetch(url, {
-          method,
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(formData),
-        });
+  if (error) {
+    error.details.forEach((err) => {
+      errors.value[err.path[0]] = err.message;
+    });
+    return;
+  }
 
-        if (!response.ok) {
-          const data = await response.json();
-          this.errorMessage = data.message || "Error !";
-          return;
-        }
-
-        await this.$router.push("/objects");
-      } catch (error) {
-        console.error(error);
-        this.errorMessage = "An error has occurred. Please try again.";
-      }
-    },
-  },
-};
+  try {
+    if (props.isEdit) {
+      await objectStore.objectEdit(formData.name, formData.description, formData.colors, formData.imageUrl, formData.price, props.initialObject._id);
+    } else {
+      await objectStore.objectCreate(formData.name, formData.description, formData.colors, formData.imageUrl, formData.price);
+    }
+   
+    navigateTo("/objects");
+  } catch (error) {
+    console.error(error);
+    this.errorMessage = "An error has occurred. Please try again.";
+  }
+}
 </script>
