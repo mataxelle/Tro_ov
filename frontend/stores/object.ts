@@ -35,11 +35,9 @@ export const useObjectStore = defineStore("object", {
           },
         });
         this.objects = [...response];
-        console.log("MON OBJECT STORE :", this.objects);
       } catch (error) {
         console.error("Error Objects : ", error);
         this.error = error instanceof Error ? error.message : "Unknown error";
-        throw error;
       } finally {
         this.loading = false;
       }
@@ -65,11 +63,36 @@ export const useObjectStore = defineStore("object", {
           body: { name, description, colors, imageUrl, price },
         });
         this.object = response;
-        console.log("MON OBJECT STORE :", this.object);
       } catch (error) {
         console.error("Error Objects : ", error);
         this.error = error instanceof Error ? error.message : "Unknown error";
-        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async getOneObject(id: string) {
+      this.loading = true;
+      this.error = null;
+      const authToken = useCookie("authToken");
+      try {
+        const response = await $fetch<Item>(
+          `${this.apiBaseUrl}/objects/${id}`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Authorization: `Bearer ${authToken.value}`,
+            },
+          }
+        );
+        console.log("Réponse du serveur :", response);
+        this.object = response;
+        console.log("MON OBJECT STORE :", this.object);
+      } catch (error) {
+        console.error("Error Object : ", error);
+        this.error = error instanceof Error ? error.message : "Unknown error";
+        this.object = null;
       } finally {
         this.loading = false;
       }
@@ -81,7 +104,7 @@ export const useObjectStore = defineStore("object", {
       colors: string,
       imageUrl: string,
       price: number,
-      id: string,
+      id: string
     ) {
       this.loading = true;
       this.error = null;
@@ -98,13 +121,33 @@ export const useObjectStore = defineStore("object", {
             body: { name, description, colors, imageUrl, price },
           }
         );
-        console.log("Réponse du serveur :", response);
         this.object = response;
-        console.log("MON OBJECT STORE :", this.object);
       } catch (error) {
-        console.error("Error Objects : ", error);
+        console.error("Error Object : ", error);
         this.error = error instanceof Error ? error.message : "Unknown error";
-        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async objectDelete(id: string) {
+      this.loading = true;
+      this.error = null;
+      const authToken = useCookie("authToken");
+      try {
+        await $fetch<Item>(
+          `${this.apiBaseUrl}/objects/${id}`,
+          {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+              Authorization: `Bearer ${authToken.value}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.error("Error : ", error);
+        this.error = error instanceof Error ? error.message : "Unknown error";
       } finally {
         this.loading = false;
       }
